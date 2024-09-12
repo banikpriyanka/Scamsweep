@@ -1,0 +1,21 @@
+Introduction
+
+This project seeks to counter a unique cyber attack, known as “Brandjacking”. Brandjacking
+refers to the malicious practice of using a well-known brand’s name, logo or other
+distinctive elements without authorization to deceive and defraud consumers [1]. This
+can involve creating fake websites, social media profiles or advertisements that mimic
+the legitimate brand’s appearance. The goal of brandjacking is often to trick customers
+into sharing sensitive information, making unauthorized purchases or engaging in other
+harmful activities. It undermines consumer trust, damages brand reputation and poses
+significant legal and financial risks to the targeted brand.
+Preventing and addressing brandjacking requires proactive online brand protection measures
+and rapid responses to mitigate its impact. Online brand protection encompasses
+a suite of strategies and measures aimed at safeguarding a company’s reputation, intellectual
+property and consumer trust in the virtual realm. This project delves into the
+pivotal role of online brand protection in mitigating risks, preserving brand integrity
+and ensuring sustained growth through an open-source toolkit named “Scamsweep”.
+The toolkit is typically used to identify threats to various brands by performing activities
+such as: data collection, web-reconnaissance, URL analysis, text analysis, image
+processing, social media monitoring, malware reverse engineering, brand risk assessment,
+alert creation and taking down the detected Indicators Of Compromise (IOC) pertaining
+to the brand being investigated.
