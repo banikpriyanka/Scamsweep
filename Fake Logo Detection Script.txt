@@ -1,0 +1,69 @@
+# Differentiating between Real and Fake Logos
+import cv2
+
+from google.colab import drive
+drive.mount(’/content/drive’)
+
+import os
+os.chdir(’/content/drive/My Drive/Scamsweep/Nike Logos’)
+
+# This function preprocesses real logos to a consistent size and color
+def image_preprocessing_real(ImagePath):
+	if not os.path.exists(ImagePath):
+		raise FileNotFoundError(f"The image file ’{ImagePath}’ does not exist.")
+
+	image = cv2.imread(ImagePath)
+	if image is None:
+		raise ValueError(f"Failed to read the image at ’{ImagePath}’. Please check if the file is a valid image.")
+
+	resized_image = cv2.resize(image, (300, 300))
+	processed_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
+	return processed_image
+
+
+# This function calculates the color histogram of real brand logos
+def generate_histogram_real(image):
+	hist = cv2.calcHist([image], [0], None, [255], [0, 255])
+	return hist.flatten()
+
+# This function uses Chi-square distance to compare two histograms
+	def generate_histogram_distance(hist1, hist2):
+	return cv2.compareHist(hist1, hist2, cv2.HISTCMP_CHISQR)
+
+
+# This function checks if test image matches any real logo based on threshold value
+	def is_image_real(ImagePath, threshold):
+		path = "/content/drive/My Drive/Scamsweep/Nike Logos/RealNike"
+		files = os.listdir(path)
+
+		real_images = []
+		for file in files:
+			if file[-4:] == ".jpg" or file[-4:] == ".png" or file[-4:] == ".gif":
+				real_image = image_preprocessing_real(path + "/" + file)
+				real_images.append((real_image, file))
+
+		image = image_preprocessing_real(ImagePath)
+		histogram = generate_histogram_real(image)
+
+		for real_image, filename in real_images:
+
+			real_histogram = generate_histogram_real(real_image)
+			histogram_distance = generate_histogram_distance(real_histogram, histogram)
+
+			if histogram_distance < threshold:
+				return "Real", filename
+				return "Fake", None
+
+# Test Case: Example Usage
+ImagePath = "/content/drive/My Drive/Scamsweep/Nike Logos/TestNike/000008.jpg"
+threshold = 0.5
+try:
+	result, matched_real_logo = is_image_real(ImagePath, threshold)
+	if matched_real_logo:
+		print("This test image appears to be a REAL brand logo.")
+		print("Match found with:", matched_real_logo)
+	else:
+		print("This test image appears to be a FAKE brand logo.")
+
+except (FileNotFoundError, ValueError) as e:
+	print("Error:", e)
