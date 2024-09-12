@@ -1,0 +1,57 @@
+# Determines if a company’s registered trademark has been violated
+import difflib
+import re
+
+# List of trademarked words for the selected brand
+trademarked_words = [ "AIRPHORIA", "JUST DO IT", "AIR MAX", "NIKE", "NIKE
+STRIDE", "AEROGAMI", "NIKE INFINITYRN", "CRATER", ".SWOOSH", "DOTSWOOSH",
+"WINFLO", "NIKE MOTIVA", "CRYPTOKICKS", "NIKE UNIVERSA", "NIKE GO", "NIKE
+ZENVY", "INFINALOCK", "INFINASOFT", "SENSEADAPT", "FLYPRINT", "AIRADAPT",
+"FITADAPT", "METADUNGEON", "LOOT POD", "D.A.R.T X", "PODX", "SPACE POD",
+"MNLTH", "NIKELAND", "WHERE SPORT HAS NO RULES", "DREAM IT. MAKE IT. PLAY
+IT.", "AIR JORDAN", "JORDAN", "WAFFLE SUITE", "NEXT NATURE", "BO KNOWS",
+"ALPHAFLY", "NO", "SNKRS", "NIKECONNECT", "FLIGHT", "SUPERREP", "23
+ENGINEERED", "WAFFLE IRON ENTERTAINMENT", "BRS BLUE RIBBON SPORTS",
+"KICKCHECK", "S", "INFINALON", "SNKSTR", "SNKRS STASH", "MOVE TO ZERO",
+"GA", "NIKE BY YOU", "FOOTWARE", "M", "AEROADAPT", "OBJ", "SNEAKEASY",
+"VAPORMAX", "SPACE HIPPIE", "TECHKNIT", "PEGASUS", "FLYLEATHER", "TRACEME",
+"BIKETOWN", "FLYEASE", "METCON", "BETTER FOR IT", "VOMERO", "NIKE LUNAR",
+"KICKS LOUNGE", "NIKE AEROSHIELD", "NIKE AIR VAPORMAX", "K I", "VAPOR",
+"NIKE VAPOR", "NIKE AEROLOFT", "MAGISTA", "HYPERSTRONG", "KD",
+"HYPERVENOM", "MATT MATTHEW KNIGHT ARENA", "NIKESKIN", "FLYKNIT", "LJ" ]
+
+# This function preprocesses the text by removing special characters
+def preprocess_text(text):
+	# Remove special characters using regular expression
+	processed_text = re.sub(r"[^\w\s]", "", text)
+	return processed_text
+
+# This function checks for trademark infringement
+def check_trademark_infringement(user_input):
+	# Preprocess the user input and convert it to uppercase for comparison
+	user_input_processed = preprocess_text(user_input).upper()
+
+	# Iterate over each trademark word
+	for word in trademarked_words:
+		# Preprocess the trademark word and convert it to uppercase for comparison
+		trademark_word_processed = preprocess_text(word).upper()
+		
+		# Compare the user input with the trademark word, accounting for typographical errors
+		similarity_ratio = difflib.SequenceMatcher(None, user_input_processed, trademark_word_processed).ratio()
+
+		# Check if the similarity ratio is above a threshold (adjust as needed)
+		if similarity_ratio >= 0.8:
+			print(f"The similarity ratio: {similarity_ratio:.2f}")
+			return True
+
+	print(f"The similarity ratio: {similarity_ratio:%.2f}")
+	return False
+
+# Get input from user
+user_input = input("Enter a sentence: ")
+
+# Check for trademark infringement
+if check_trademark_infringement(user_input):
+	print("Trademark infringement observed.")
+else:
+	print("Not a trademark infringement.")
